@@ -25,10 +25,13 @@ spec:
           command: ["/bin/sh", "-c"]
           args:
             {{- if .Values.hasura.gitRepository }}
+            {{- if .Values.hasura.gitSshKey }}
+            - GIT_SSH_COMMAND='ssh -i example -o IdentitiesOnly=yes'
+            {{ - end }}
             - git clone --single-branch -- {{ .Values.hasura.gitRepository }} /repo
-              || (cd repo ;git pull)
+              || (cd repo; git pull)
             {{- else }}
-            - mkdir -p /repo/migrations && mkdir -p /repo/metadata
+            - mkdir -p /repo/{{ .Values.hasura.migrationsDir  }} && mkdir -p /repo/{{ .Values.hasura.metadataDir  }}
             {{- end }}
           securityContext:
             runAsUser: 1 # Any non-root user will do. Match to the workload.
