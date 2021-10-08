@@ -49,10 +49,19 @@ questions:
 
 - variable: hasura.gitRepository
   required: false
-  label: "Init Git Repository"
+  label: "Metadata/Migration Git Repository"
   description: >
     Repository is used to initialize Hasura with metadata and migrations.
-    Requires access token in the string or public repo atm. E.g. https://gitlab-ci-token:access-token@git.iib-it.de/wma40/hasura.git
+    Requires access token in the string/public repo or hasura.gitSshKey atm.
+    E.g. https://gitlab-ci-token:access-token@git.iib-it.de/wma40/hasura.git
+  type: string
+  group: "Hasura Configuration"
+
+- variable: hasura.gitSshKey
+  required: false
+  label: "Git Repository SSH Key"
+  description: >
+    This SSH key is used to retrieve the hasura.gitRepository.
   type: string
   group: "Hasura Configuration"
 
