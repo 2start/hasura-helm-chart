@@ -3,6 +3,23 @@ entries:
   hasura:
   - apiVersion: v2
     appVersion: v2.0.9
+    created: "2021-10-08T21:41:26.307712096Z"
+    description: A Helm chart for Hasura GraphQL Engine with automatic application
+      of migrations and metadata from a git repo.
+    digest: e432e03dc4e1a3c2edc97e8d155f2bec498f32d486a5894b9ed0a180ba759b0b
+    icon: https://raw.githubusercontent.com/delapecci/hasura-helm3-chart/master/hasura.jpg
+    keywords:
+    - Hasura
+    - GraphQL
+    - Realtime
+    - 3FactorApp
+    name: hasura
+    type: application
+    urls:
+    - https://github.com/2start/hasura-helm-chart/releases/download/hasura-1.2.4/hasura-1.2.4.tgz
+    version: 1.2.4
+  - apiVersion: v2
+    appVersion: v2.0.9
     created: "2021-10-08T21:21:00.027238768Z"
     description: A Helm chart for Hasura GraphQL Engine with automatic application
       of migrations and metadata from a git repo.
@@ -52,4 +69,4 @@ entries:
     urls:
     - https://github.com/2start/hasura-helm-chart/releases/download/hasura-1.2.1/hasura-1.2.1.tgz
     version: 1.2.1
-generated: "2021-10-08T21:21:00.027257768Z"
+generated: "2021-10-08T21:41:26.307737397Z"
