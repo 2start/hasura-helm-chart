@@ -59,9 +59,9 @@ questions:
 
 - variable: hasura.gitSshKey
   required: false
-  label: "Git Repository SSH Key"
+  label: "Git Repository SSH Key Secret Name"
   description: >
-    This SSH key is used to retrieve the hasura.gitRepository.
+    This SSH key is used to retrieve the hasura.gitRepository. Create the secret containing the SSH key to use via `kubectl create secret generic [secret-name] --from-file=repo_private_key=id_rsa -n [app namespace]`
   type: string
   group: "Hasura Configuration"
 
