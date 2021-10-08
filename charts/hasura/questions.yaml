@@ -1,0 +1,137 @@
+questions:
+- variable: image.tag
+  default: "v2.0.9.cli-migrations-v3"
+  label: "Hasura Image Tag"
+  description: "Specify an image with the cli-migrations-v3 suffix to automatically apply the metadata and migrations at pod startup."
+  type: string
+  required: true
+  group: "Container Image"
+  
+- variable: hasura.metadataDatabaseUrl
+  default: postgresql://user:pw@host:5432/postgres
+  required: true
+  label: "Metadata Database Connection String"
+  description: ""
+  type: string
+  group: "Hasura Configuration"
+
+- variable: hasura.adminSecret
+  default: Abcdeghij1!
+  required: true
+  label: "Admin Secret"
+  description: ""
+  type: string
+  group: "Hasura Configuration"
+
+- variable: hasura.authHook
+  default:
+  required: false
+  label: "Authentication Webhook."
+  description: ""
+  type: string
+  group: "Hasura Configuration"
+
+- variable: hasura.enableRemoteSchemaPermissions
+  default: "false"
+  required: false
+  label: "Enable Remote Schema Permissions"
+  description: ""
+  type: string
+  group: "Hasura Configuration"
+
+- variable: hasura.enableConsole
+  default: "false"
+  required: false
+  label: "Web Console Access"
+  description: "Access to the hasura web console without using 'hasura console'. "
+  type: string
+  group: "Hasura Configuration"
+
+- variable: hasura.gitRepository
+  required: false
+  label: "Init Git Repository"
+  description: >
+    Repository is used to initialize Hasura with metadata and migrations.
+    Requires access token in the string or public repo atm. E.g. https://gitlab-ci-token:access-token@git.iib-it.de/wma40/hasura.git
+  type: string
+  group: "Hasura Configuration"
+
+- variable: hasura.metadataDir
+  default: "metadata"
+  required: true
+  label: "Metadata Dir"
+  description: "Relative path to the metadata folder inside your repository. E.g. folderXYZ/metadata."
+  type: string
+  group: "Hasura Configuration"
+
+- variable: hasura.migrationsDir
+  default: "migrations"
+  required: true
+  label: "Migrations Dir"
+  description: "Relative path to the migrations folder inside your repository. E.g. folderXYZ/migrations."
+  type: string
+  group: "Hasura Configuration"
+
+- variable: replicaCount
+  default: 1
+  required: true
+  label: Replica Count
+  description: ""
+  type: int
+  group: "Deployment"
+
+- variable: readinessProbePath
+  default: "/healthz"
+  label: Path for readiness probe
+  description: ""
+  type: string
+  required: false
+  group: "Container"
+  
+- variable: livenessProbePath
+  default: "/healthz"
+  label: Path for liveness probe
+  description: ""
+  type: string
+  required: false
+  group: "Container"
+  
+- variable: resources.requests.cpu
+  default: "1000m"
+  description: ""
+  type: string
+  required: true
+  label: "Requested CPU"
+  group: "Resources"
+
+- variable: resources.requests.memory
+  default: "512Mi"
+  description: ""
+  type: string
+  required: true
+  label: "Requested memory"
+  group: "Resources"  
+
+- variable: resources.limits.cpu
+  default: "1000m"
+  description: "Maximum CPU usage"
+  type: string
+  required: true
+  label: "CPU limit"
+  group: "Resources"
+
+- variable: resources.limits.memory
+  default: "512Mi"
+  description: "Maximum memory usage"
+  type: string
+  required: true
+  label: "Memory limit"
+  group: "Resources"
+
+- variable: envAsMultiline
+  default: ""
+  description: "One KEY=VALUE per line"
+  type: multiline
+  required: false
+  label: "Environment variables"
+  group: "Environment"

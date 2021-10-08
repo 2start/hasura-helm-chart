@@ -1,0 +1,10 @@
+Thank you for installing {{ .Chart.Name }}. Your release is named {{ .Release.Name }}.
+
+## Create an ingress
+An ingress allows you to specify mappings from external domains like `hasura.canida.io` to the hasura backend service.
+Your cloud provider / ingress addon will respond to the ingress creation by spawning an ingress controller.
+Please research how to create an ingress for your specific infrastructure.
+
+## Create a DNS entry
+Next create a DNS entry that links your domain to the ingress controller.
+Then it should be possible to access the hasura instance via the domain name.

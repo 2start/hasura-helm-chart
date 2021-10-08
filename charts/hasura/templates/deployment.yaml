@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "hasura-helm3-chart.fullname" . }}
+  labels:
+{{ include "hasura-helm3-chart.labels" . | indent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "hasura-helm3-chart.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "hasura-helm3-chart.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      volumes:
+        - name: git-repo
+          emptyDir: { }
+      initContainers:
+        - name: git-clone
+          image: alpine/git # Any image with git will do
+          command: ["/bin/sh", "-c"]
+          args:
+            {{- if .Values.hasura.gitRepository }}
+            - git clone --single-branch -- {{ .Values.hasura.gitRepository }} /repo
+              || (cd repo ;git pull)
+            {{- else }}
+            - mkdir -p /repo/migrations && mkdir -p /repo/metadata
+            {{- end }}
+          securityContext:
+            runAsUser: 1 # Any non-root user will do. Match to the workload.
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - name: git-repo
+              mountPath: /repo
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          - name: HASURA_GRAPHQL_ENABLE_CONSOLE
+            value: {{ quote .Values.hasura.enableConsole  }}
+          - name: HASURA_GRAPHQL_METADATA_DATABASE_URL
+            value: {{ .Values.hasura.metadataDatabaseUrl  }}
+          - name: HASURA_GRAPHQL_ADMIN_SECRET
+            value: {{ .Values.hasura.adminSecret }}
+          - name: HASURA_GRAPHQL_METADATA_DIR
+            value: /repo/{{ .Values.hasura.metadataDir  }}
+          - name: HASURA_GRAPHQL_MIGRATIONS_DIR
+            value: /repo/{{ .Values.hasura.migrationsDir }}
+          {{- if .Values.hasura.authHook }}
+          - name: HASURA_GRAPHQL_AUTH_HOOK
+            value: {{ .Values.hasura.authHook }}
+          {{- end }}
+          - name: HASURA_GRAPHQL_ENABLE_REMOTE_SCHEMA_PERMISSIONS
+            value: {{ quote .Values.hasura.enableRemoteSchemaPermissions }}
+          {{- if .Values.envAsMultiline -}}
+          {{- range (split "\n" .Values.envAsMultiline) }}
+          - name: "{{ (split "=" .)._0 }}"
+            value: "{{ (split "=" .)._1 }}"
+          {{- end }}
+          {{- end }}
+          volumeMounts:
+            - name: git-repo
+              mountPath: /repo
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          {{- if .Values.livenessProbePath }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.livenessProbePath }}
+              port: http
+          {{- end }}
+          {{- if .Values.readinessProbePath }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.readinessProbePath }}
+              port: http
+          {{- end }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
