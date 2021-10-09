@@ -16,10 +16,10 @@ questions:
   group: "Hasura Configuration"
 
 - variable: hasura.adminSecret
-  default: Abcdeghij1!
-  required: true
+  default:
+  required: false
   label: "Admin Secret"
-  description: ""
+  description: "Secret key to authenticate to Hasura as an admin user."
   type: string
   group: "Hasura Configuration"
 
@@ -61,7 +61,9 @@ questions:
   required: false
   label: "Git Repository SSH Key Secret Name"
   description: >
-    This SSH key is used to retrieve the hasura.gitRepository. Create the secret containing the SSH key to use via `kubectl create secret generic [secret-name] --from-file=repo_private_key=id_rsa -n [app namespace]`
+    This SSH key is used to retrieve the hasura.gitRepository.
+    Create the secret containing the SSH key to use via
+    `kubectl create secret generic [secret-name] --from-file=git-ssh-key=id_rsa -n [app namespace]`.
   type: string
   group: "Hasura Configuration"
 
