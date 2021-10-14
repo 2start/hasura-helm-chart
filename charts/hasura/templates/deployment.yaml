@@ -31,11 +31,13 @@ spec:
             {{- if .Values.hasura.gitRepository }}
             - echo "Initialize hasura with {{ .Values.hasura.gitRepository }}";
               {{- if .Values.hasura.gitSshKey }}
+            - echo "Load ssh key..";
             - GIT_SSH_COMMAND='ssh -i /repo/repo-ssh/git-ssh-key -o IdentitiesOnly=yes';
               {{ end }}
             - echo "init/update repo..";
             - if cd repo; then git pull; else git clone --single-branch -- {{ .Values.hasura.gitRepository }} /repo; fi;
             {{- else }}
+            - echo "No repo specified.";
             - mkdir -p /repo/{{ .Values.hasura.migrationsDir  }} && mkdir -p /repo/{{ .Values.hasura.metadataDir  }};
             {{- end }}
           securityContext:
