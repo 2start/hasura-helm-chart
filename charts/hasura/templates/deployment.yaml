@@ -32,7 +32,7 @@ spec:
             - echo "Initialize hasura with {{ .Values.hasura.gitRepository }}";
               {{- if .Values.hasura.gitSshKey }}
               echo "Load ssh key..";
-              GIT_SSH_COMMAND='ssh -i /repo/repo-ssh/git-ssh-key -o IdentitiesOnly=yes';
+              GIT_SSH_COMMAND='ssh -i /repo/repo-ssh/git-ssh-key -o StrictHostKeyChecking=no -o IdentitiesOnly=yes';
               {{ end }}
               echo "init/update repo..";
               if cd repo; then git pull; else git clone --single-branch -- {{ .Values.hasura.gitRepository }} /repo; fi;
