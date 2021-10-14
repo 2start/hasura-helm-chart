@@ -53,7 +53,7 @@ questions:
   description: >
     Repository is used to initialize Hasura with metadata and migrations.
     Requires access token in the string/public repo or hasura.gitSshKey atm.
-    E.g. https://gitlab-ci-token:access-token@git.iib-it.de/wma40/hasura.git
+    E.g. https://gitlab-ci-token:access-token@git.iib-it.de/project/hasura.git or git@github.com:2start/hasura.git
   type: string
   group: "Hasura Configuration"
 
