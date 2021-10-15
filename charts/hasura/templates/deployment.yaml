@@ -36,7 +36,7 @@ spec:
               {{ end }}
               echo "init/update repo..";
               if cd repo; then git pull; else git clone --single-branch -- {{ .Values.hasura.gitRepository }} /repo; fi;
-              ls -lah /ssh-key-storage;
+#              ls -lah /ssh-key-storage;
           {{- else }}
               echo "No repo specified.";
               mkdir -p /repo/{{ .Values.hasura.migrationsDir  }} && mkdir -p /repo/{{ .Values.hasura.metadataDir  }};
