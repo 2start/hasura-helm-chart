@@ -19,10 +19,10 @@ spec:
       volumes:
         - name: git-repo
           emptyDir: { }
-        - name: ssh-key
+        - name: ssh-key-volume
           secret:
             secretName: {{ quote .Values.hasura.gitSshKey }}
-            defaultMode: 0600
+            defaultMode: 0400
       initContainers:
         - name: git-clone
           image: alpine/git # Any image with git will do
@@ -32,10 +32,11 @@ spec:
             - echo "Initialize hasura with {{ .Values.hasura.gitRepository }}";
               {{- if .Values.hasura.gitSshKey }}
               echo "Load ssh key..";
-              export GIT_SSH_COMMAND='ssh -i /ssh-key/git-ssh-key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes';
+              export GIT_SSH_COMMAND='ssh -i /ssh-key-storage/git-ssh-key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes';
               {{ end }}
               echo "init/update repo..";
               if cd repo; then git pull; else git clone --single-branch -- {{ .Values.hasura.gitRepository }} /repo; fi;
+              ls -lah /ssh-key-storage;
           {{- else }}
               echo "No repo specified.";
               mkdir -p /repo/{{ .Values.hasura.migrationsDir  }} && mkdir -p /repo/{{ .Values.hasura.metadataDir  }};
@@ -47,9 +48,9 @@ spec:
           volumeMounts:
             - name: git-repo
               mountPath: /repo
-            - name: ssh-key
+            - name: ssh-key-volume
               readOnly: true
-              mountPath: '/ssh-key/'
+              mountPath: '/ssh-key-storage/'
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
