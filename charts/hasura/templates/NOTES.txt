@@ -4,7 +4,41 @@ Thank you for installing {{ .Chart.Name }}. Your release is named {{ .Release.Na
 An ingress allows you to specify mappings from external domains like `hasura.canida.io` to the hasura backend service.
 Your cloud provider / ingress addon will respond to the ingress creation by spawning an ingress controller.
 Please research how to create an ingress for your specific infrastructure.
+An example for AWS Application Load Balancers is given below. the ingress automatically uses a certificate created in ACM
+and creates an application load balancer to route the traffic to the hasura backend.
 
-## Create a DNS entry
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hasura-ingress
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/subnets: subnet-0254d7d778791139f,subnet-093ccac0ce5659eba,subnet-0be8ed93377e29dd0
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+    alb.ingress.kubernetes.io/group.name: main-load-balancer
+spec:
+  tls:
+    - hosts:
+        - hasura.prodlane.io
+  rules:
+    - host: hasura.prodlane.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+               name: YOUR_SERVICE_NAME
+               port:
+                number: 80
+```
+
+
+
+## Create the DNS entry
 Next create a DNS entry that links your domain to the ingress controller.
 Then it should be possible to access the hasura instance via the domain name.
