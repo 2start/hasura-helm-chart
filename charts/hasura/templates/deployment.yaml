@@ -41,10 +41,6 @@ spec:
               echo "No repo specified.";
               mkdir -p /repo/{{ .Values.hasura.migrationsDir  }} && mkdir -p /repo/{{ .Values.hasura.metadataDir  }};
           {{- end }}
-          securityContext:
-            runAsUser: 1 # Any non-root user will do. Match to the workload.
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
           volumeMounts:
             - name: git-repo
               mountPath: /repo
