@@ -1,4 +1,6 @@
 ![release_workflow_bage](https://github.com/2start/hasura-helm-chart/actions/workflows/releases.yml/badge.svg)
+![](https://img.shields.io/github/last-commit/2start/hasura-helm-chart)
+![](https://img.shields.io/github/downloads/2start/hasura-helm-chart/total)
 
 # hasura-helm-chart
 Kubernetes Helm chart to deploy Hasura and initialize the metadata and migrations from a git repository.
