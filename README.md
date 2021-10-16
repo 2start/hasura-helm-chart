@@ -1,3 +1,5 @@
+![release_workflow_bage](https://github.com/2start/hasura-helm-chart/actions/workflows/releases.yml/badge.svg)
+
 # hasura-helm-chart
 Kubernetes Helm chart to deploy Hasura and initialize the metadata and migrations from a git repository.
 The Helm charts also contain a questions.yaml file which provides an enhanced user experience when deploying Hasura
