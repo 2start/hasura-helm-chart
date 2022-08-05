@@ -1,3 +1,5 @@
+# Important 
+
 Don't use this. It's way more elegant to just package metadata and migrations in a custom Docker container inheriting from the Hasura container.
 
 ![release_workflow_bage](https://github.com/2start/hasura-helm-chart/actions/workflows/releases.yml/badge.svg)
