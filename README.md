@@ -1,15 +1,14 @@
-# Important 
-
-🚨 Don't use this unless you have a specific reason to not bundle your Hasura metadata & migrations inside the Docker image.
-
 ![release_workflow_bage](https://github.com/2start/hasura-helm-chart/actions/workflows/releases.yml/badge.svg)
 ![](https://img.shields.io/github/last-commit/2start/hasura-helm-chart)
 ![](https://img.shields.io/github/downloads/2start/hasura-helm-chart/total)
 ![](https://img.shields.io/github/license/2start/hasura-helm-chart)
 # hasura-helm-chart
-Kubernetes Helm chart to deploy Hasura and initialize the metadata and migrations from a git repository.
+
+Kubernetes Helm chart to deploy Hasura and initialize the metadata and migrations from a remote git repository.
 The Helm charts also contain a questions.yaml file which provides an enhanced user experience when deploying Hasura
 via Rancher.
+
+🚨 Don't use this unless you have a specific reason to not bundle your Hasura metadata & migrations inside the Docker image.
 
 ## Installation
 
